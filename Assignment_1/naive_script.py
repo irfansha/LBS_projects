@@ -16,12 +16,21 @@ todos:
   Ouput: float (the time taken to complete invocation)
 '''
 
+import requests
+
+
+def test_username():
+  data= {'q': '[python]'}
+  r = requests.get('http://lbs-2020-02.askarov.net:3030/', data=data)
+  print r.text
+
+
 def test():
   print("Yup!")
 
 
 def main():
-  test()
+  test_username()
 
 if __name__== "__main__":
   main()
