@@ -20,14 +20,10 @@ import requests
 
 
 def test_username():
-  data= {'q': '[python]'}
-  r = requests.get('http://lbs-2020-02.askarov.net:3030/', data=data)
-  print r.text
-
-
-def test():
-  print("Yup!")
-
+  payload= {'username': 'admin', 'Submit':'submit'}
+  #r = requests.get('http://lbs-2020-02.askarov.net:3030/', data=data)
+  r1 = requests.post('http://lbs-2020-02.askarov.net:3030/reset/', payload)
+  print(r1.text)
 
 def main():
   test_username()
