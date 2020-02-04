@@ -10,16 +10,13 @@ Irfansha Shaik
 
 '''
 todos:
-- Write a function for submitting username: test_username
-  Input: string (username)
-  Proc: we submit the username in the website and time the invocation
-  Ouput: float (the time taken to complete invocation)
-- Now need to time the calls
-  - We want to use inbuild time functions in python.
-  - First we consider the module timeit.
+- Instead of checking where the username is admin
+  we will check if the key characters one by one (by sql injection).
+  But we need to consider if the characters are alpha-numeric or more.
 '''
 
 import requests
+import time
 
 def get_usernames():
   users = []
@@ -29,16 +26,18 @@ def get_usernames():
 def test_username(username):
   payload= {'username': username, 'Submit':'submit'}
   #r = requests.get('http://lbs-2020-02.askarov.net:3030/', data=data)
-  r1 = requests.post('http://lbs-2020-02.askarov.net:3030/reset/', payload)
+  start_time = time.time()
+  s = requests.post('http://lbs-2020-02.askarov.net:3030/reset/', payload)
+  time_taken = (time.time() - start_time)
   # We need to assert if the resultant string is a success
   #print(r1.text)
-  return 0
+  return time_taken
 
 def main():
   usernames = get_usernames()
   for user_name in usernames:
     user_time = test_username(user_name)
-    #print(user_time)
+    print(user_time)
 
 if __name__== "__main__":
   main()
