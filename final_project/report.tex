@@ -101,6 +101,13 @@ Given enough $k$, it is possible to retreive the secret key completely however i
 
 XXX
 
+Instructions to use for compilation, run and looking at testcases:
+\begin{verbatim}
+clang -I ../../include -emit-llvm -c -g ./examples/project_proto/symbolic_attack.c
+klee -emit-all-errors symbolic_attack.bc 1 6 2
+ktest-tool test000018.ktest
+\end{verbatim}
+
 \bibliographystyle{plain}
 \bibliography{references}
 
