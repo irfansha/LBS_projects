@@ -6,6 +6,7 @@
 //#include<string.h>
 #include<stdio.h>
 #include<stdlib.h>
+#include <assert.h>
 
 
 int secret;
@@ -25,6 +26,17 @@ int vulnerable_function(int public_input)
 }
 
 
+int is_valid(int lb, int rb, int *public_inputs, int step) {
+	if (public_inputs[step] >= lb && public_inputs[step] <= rb) {
+		// return false if input is a reoccurance:
+		for (int i = 0; i<step; ++i) {
+			if (public_inputs[i] == public_inputs[step]) { return 0; }
+		}
+		return 1;
+	}
+	return 0;
+}
+
 /**
   * The main function
   */
@@ -32,7 +44,7 @@ int
 main (int argc, char *argv[])
 {
 	int step = 0;    //Step number
-        int k = 2;	// number of total steps
+        int k = atoi(argv[3]);	// number of total steps
 	int public_inputs[k];
 
         int total_cost = 0;
@@ -40,9 +52,9 @@ main (int argc, char *argv[])
         int lb = atoi(argv[1]);   // left bound of secret domain size
         int rb = atoi(argv[2]);   // right bound of secret domain size
 
-        // Making the secret symbolic as it is unknown:
-        klee_make_symbolic(&secret, sizeof(secret), "secret");
         //secret = 4;
+	// Making the secret symbolic as it is unknown:
+	klee_make_symbolic(&secret, sizeof(secret), "secret");
 
         // Making the public inputs symbolic:
 	klee_make_symbolic(public_inputs,k * sizeof(int),"public inputs");
@@ -52,7 +64,7 @@ main (int argc, char *argv[])
 		   we only consider the sequence of inputs which are within current bounds
 		   i.e. learning from previous observations
 		*/
-	        while(step < k && public_inputs[step] >= lb && public_inputs[step] <= rb) {
+	        while(step < k && is_valid(lb, rb, public_inputs, step) && rb > lb) {
 			int cost = vulnerable_function(public_inputs[step]);
 			/*
 			Here we update the domain boundaries secret input
@@ -69,4 +81,6 @@ main (int argc, char *argv[])
 		        step++;
 	        }
           }
+	// XXX check if lb is greater than rb:
+	if (lb == rb || lb > rb) { klee_assert(0); }
 }
