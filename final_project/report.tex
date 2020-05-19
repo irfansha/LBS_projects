@@ -72,6 +72,34 @@ Summary of Symbolic analysis of probabilistic programs paper:
 \item While injected randomness can be used as a counter measure, it is essential to measure the effectiveness the measures.
 \end{enumerate}
 
+\section{Side channel attacks}
+\label{sec:sidechannelattacks}
+
+XXX
+
+\chapter{Experimentation and design}
+\label{cha:experimentationanddesign}
+
+We consider a simple side channel attack via symbolic execution.
+Consider the code snippet provided below:
+\begin{verbatim}
+int vulnerable_code(int public_input) {
+
+if (secret >= public_input) { return 1; } # Cost is 1
+else { return 2; } # Cost is 2
+
+}
+\end{verbatim}
+
+As in any side channel attack, we need difference in some measurement (for example time) here we simply provide the cost as integer
+for comparision between different paths.
+
+Now the idea is to apply $k$-step attack, such that we extract some information on secret key.
+For example, let $\{1 \dots 6\}$ be the domain of the secret (which we assume to know) and suppose we apply a $2$-step attack.
+Here, we choose two public inputs such that we slice the domain such that we retrive the secret key depending on the cost measurement.
+Given enough $k$, it is possible to retreive the secret key completely however it is not practical as search tree size grows exponentially.
+
+XXX
 
 \bibliographystyle{plain}
 \bibliography{references}
