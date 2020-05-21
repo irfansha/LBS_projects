@@ -52,10 +52,11 @@
 
 Todos for IS:
 \begin{enumerate}
-\item Write Psuedo code for single step attack
-\item Run single step attack in Klee
-\item Run single step attack in Symbolic Path Finder
-\item Adapt it to multi-step attack
+\item Test the if a secret value is reachable and take advantage of heuristics.
+  \begin{enumerate}
+  \item use option "-exit-on-error" to stop when a solution is found.
+  \end{enumerate}
+\item try to initialise a new symbolic variable when needed (not at once in starting).
 \end{enumerate}
 
 \chapter{Introduction}
