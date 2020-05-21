@@ -64,7 +64,7 @@ main (int argc, char *argv[])
 		   we only consider the sequence of inputs which are within current bounds
 		   i.e. learning from previous observations
 		*/
-	        while(step < k && is_valid(lb, rb, public_inputs, step) && rb > lb) {
+	        for(int step = 0; step < k && is_valid(lb, rb, public_inputs, step) && rb > lb; step++) {
 			int cost = vulnerable_function(public_inputs[step]);
 			/*
 			Here we update the domain boundaries secret input
@@ -77,10 +77,10 @@ main (int argc, char *argv[])
 			}
 			// Cumulating cost:
 			total_cost = total_cost + cost;
-		        //increment iteration
-		        step++;
 	        }
           }
-	// XXX check if lb is greater than rb:
-	if (lb == rb || lb > rb) { klee_assert(0); }
-}
+	// if we found the secret:
+	if (lb == rb) {
+		assert(lb <= rb);
+		printf("secret: %d", secret);
+	}}
