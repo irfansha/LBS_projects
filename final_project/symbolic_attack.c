@@ -43,18 +43,16 @@ int is_valid(int lb, int rb, int *public_inputs, int step) {
 int
 main (int argc, char *argv[])
 {
+
+	secret = atoi(argv[1]);   // Taking secret as input
+        int lb = 1;   // fixing left bound to 1
+        int rb = atoi(argv[2]);   // right bound of secret domain size
+
 	int step = 0;    //Step number
         int k = atoi(argv[3]);	// number of total steps
 	int public_inputs[k];
 
         int total_cost = 0;
-
-        int lb = atoi(argv[1]);   // left bound of secret domain size
-        int rb = atoi(argv[2]);   // right bound of secret domain size
-
-        //secret = 4;
-	// Making the secret symbolic as it is unknown:
-	klee_make_symbolic(&secret, sizeof(secret), "secret");
 
         // Making the public inputs symbolic:
 	klee_make_symbolic(public_inputs,k * sizeof(int),"public inputs");
@@ -79,8 +77,7 @@ main (int argc, char *argv[])
 			total_cost = total_cost + cost;
 	        }
           }
-	// if we found the secret:
-	if (lb == rb) {
-		assert(lb <= rb);
-		printf("secret: %d", secret);
-	}}
+	assert(lb <= rb);
+	// If we found the secret:
+	if (lb == rb) {	klee_assert(0);	}
+}
