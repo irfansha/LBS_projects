@@ -44,15 +44,17 @@ int
 main (int argc, char *argv[])
 {
 
-	secret = atoi(argv[1]);   // Taking secret as input
         int lb = 1;   // fixing left bound to 1
-        int rb = atoi(argv[2]);   // right bound of secret domain size
+        int rb = atoi(argv[1]);   // right bound of secret domain size
 
 	int step = 0;    //Step number
-        int k = atoi(argv[3]);	// number of total steps
+        int k = atoi(argv[2]);	// number of total steps
 	int public_inputs[k];
 
         int total_cost = 0;
+
+        // Making the secret symbolic:
+	klee_make_symbolic(&secret,sizeof(int),"secret");
 
         // Making the public inputs symbolic:
 	klee_make_symbolic(public_inputs,k * sizeof(int),"public inputs");
