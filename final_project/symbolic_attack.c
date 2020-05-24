@@ -46,12 +46,24 @@ main (int argc, char *argv[])
 
         int lb = 1;   // fixing left bound to 1
         int rb = atoi(argv[1]);   // right bound of secret domain size
-
+	int domain_size = rb;     // domain size
 	int step = 0;    //Step number
         int k = atoi(argv[2]);	// number of total steps
+	char* outfile = argv[3];
 	int public_inputs[k];
+	int cost_observations[k];  // array for storing cost observations
 
         int total_cost = 0;
+
+	// Restting public inputs:
+	for (int i = 0; i < k; i++) {
+		public_inputs[i] = 0;
+	}
+
+	// Restting cost observations:
+	for (int i = 0; i < k; i++) {
+		cost_observations[i] = 0;
+	}
 
         // Making the secret symbolic:
 	klee_make_symbolic(&secret,sizeof(int),"secret");
@@ -66,6 +78,7 @@ main (int argc, char *argv[])
 		*/
 	        for(int step = 0; step < k && is_valid(lb, rb, public_inputs, step) && rb > lb; step++) {
 			int cost = vulnerable_function(public_inputs[step]);
+			cost_observations[step] = cost;
 			/*
 			Here we update the domain boundaries secret input
 			*/
@@ -80,6 +93,20 @@ main (int argc, char *argv[])
 	        }
           }
 	assert(lb <= rb);
-	// If we found the secret:
-	if (lb == rb) {	klee_assert(0);	}
+
+	FILE *fptr;
+	fptr = fopen(outfile,"a");
+	// Writing domain size and k to file:
+	fprintf(fptr,"%d %d ", domain_size, k);
+	// Writing public inputs to file:
+	for (int i = 0; i < k; i++) {
+		fprintf(fptr,"%d ", public_inputs[i]);
+	}
+	// Writing cost observations to file:
+	for (int i = 0; i < k; i++) {
+		fprintf(fptr,"%d ", cost_observations[i]);
+	}
+	// Writing secret, final left bound, right bound and total cost:
+	fprintf(fptr,"%d %d %d %d\n", secret, lb, rb, total_cost);
+	fclose(fptr);
 }
