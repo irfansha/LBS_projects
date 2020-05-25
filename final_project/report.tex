@@ -40,21 +40,6 @@
 
 \newpage
 
-\section{Software: \texttt{Klee}}
-\label{cha:softwares}
-
-Docker usage:
-\begin{enumerate}
-    \item \texttt{sudo docker run --rm -ti --ulimit='stack=-1:-1' klee/klee}
-\end{enumerate}
-
-Working usage:
-\begin{enumerate}
-    \item \texttt{http://klee.github.io/releases/docs/v1.3.0/docker/}
-\end{enumerate}
-
-\newpage
-
 \section{Literature review}
 \label{cha:literaturereview}
 
@@ -81,6 +66,24 @@ XXX
 
 \section{Experimentation and Design}
 \label{sec:experimentationanddesign}
+
+XXX
+
+\subsection{Software: \texttt{Klee}}
+\label{subsec:softwares}
+
+Docker usage:
+\begin{enumerate}
+    \item \texttt{sudo docker run --rm -ti --ulimit='stack=-1:-1' klee/klee}
+\end{enumerate}
+
+Working usage:
+\begin{enumerate}
+    \item \texttt{http://klee.github.io/releases/docs/v1.3.0/docker/}
+\end{enumerate}
+
+\subsection{Modelling the symbolic side channel attack}
+\label{subsec:modellingsscattack}
 
 We consider a simple side channel attack via symbolic execution.
 Consider the code snippet provided below:
