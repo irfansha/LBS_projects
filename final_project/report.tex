@@ -66,7 +66,7 @@ XXX
 
 \newpage
 
-\section{Experimentation and Design}
+\section{Experimentation setup and Analysis}
 \label{sec:experimentationanddesign}
 
 XXX
@@ -79,6 +79,13 @@ Docker usage:
     \item \texttt{sudo docker run --rm -ti --ulimit='stack=-1:-1' klee/klee}
     \item More information on docker available in \href{http://klee.github.io/releases/docs/v1.3.0/docker/}{github}
 \end{enumerate}
+
+Instructions to use for compilation, run and looking at testcases:
+\begin{verbatim}
+clang -I ../../include -emit-llvm -c -g ./examples/project_proto/symbolic_attack.c
+klee -emit-all-errors symbolic_attack.bc 1 6 2
+ktest-tool test000018.ktest
+\end{verbatim}
 
 \subsection{Modelling the symbolic side channel attack}
 \label{subsec:modellingsscattack}
@@ -104,12 +111,10 @@ Given enough $k$, it is possible to retreive the secret key completely however i
 
 XXX
 
-Instructions to use for compilation, run and looking at testcases:
-\begin{verbatim}
-clang -I ../../include -emit-llvm -c -g ./examples/project_proto/symbolic_attack.c
-klee -emit-all-errors symbolic_attack.bc 1 6 2
-ktest-tool test000018.ktest
-\end{verbatim}
+\subsection{Data and analysis}
+\label{subsec:dataandanalysis}
+
+XXX
 
 \newpage
 
