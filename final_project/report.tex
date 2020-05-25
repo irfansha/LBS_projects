@@ -69,23 +69,7 @@ XXX
 \section{Experimentation setup and Analysis}
 \label{sec:experimentationanddesign}
 
-XXX
-
-\subsection{Software: \texttt{Klee}}
-\label{subsec:softwares}
-
-Docker usage:
-\begin{enumerate}
-    \item \texttt{sudo docker run --rm -ti --ulimit='stack=-1:-1' klee/klee}
-    \item More information on docker available in \href{http://klee.github.io/releases/docs/v1.3.0/docker/}{github}
-\end{enumerate}
-
-Instructions to use for compilation, run and looking at testcases:
-\begin{verbatim}
-clang -I ../../include -emit-llvm -c -g ./examples/project_proto/symbolic_attack.c
-klee -emit-all-errors symbolic_attack.bc 1 6 2
-ktest-tool test000018.ktest
-\end{verbatim}
+To invesigate the scalability of adaptive side channel attacks in \texttt{Klee}, we first model a side channel attack and investigate the adaptive $k$-step attack in \texttt{Klee}.
 
 \subsection{Modelling the symbolic side channel attack}
 \label{subsec:modellingsscattack}
@@ -110,6 +94,23 @@ Here, we choose two public inputs such that we slice the domain such that we ret
 Given enough $k$, it is possible to retreive the secret key completely however it is not practical as search tree size grows exponentially.
 
 XXX
+
+\subsection{Software: \texttt{Klee} and our experimentation setup}
+\label{subsec:softwares}
+
+Docker usage:
+\begin{enumerate}
+    \item \texttt{sudo docker run --rm -ti --ulimit='stack=-1:-1' klee/klee}
+    \item More information on docker available in \href{http://klee.github.io/releases/docs/v1.3.0/docker/}{github}
+\end{enumerate}
+
+Instructions to use for compilation, run and looking at testcases:
+\begin{verbatim}
+clang -I ../../include -emit-llvm -c -g ./examples/project_proto/symbolic_attack.c
+klee -emit-all-errors symbolic_attack.bc 1 6 2
+ktest-tool test000018.ktest
+\end{verbatim}
+
 
 \subsection{Data and analysis}
 \label{subsec:dataandanalysis}
