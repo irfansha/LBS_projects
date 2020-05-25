@@ -2,6 +2,8 @@
 \documentclass[11pt,a4paper,notitlepage]{article}
 \usepackage[utf8]{inputenc}
 \usepackage{titling}
+\usepackage{hyperref}
+
 \title{Symbolic execution of adaptive side-channel attacks}
 \author{Emilie L. Thonsgaard \and Irfansha Shaik}
 \date{May 2020}
@@ -75,11 +77,7 @@ XXX
 Docker usage:
 \begin{enumerate}
     \item \texttt{sudo docker run --rm -ti --ulimit='stack=-1:-1' klee/klee}
-\end{enumerate}
-
-Working usage:
-\begin{enumerate}
-    \item \texttt{http://klee.github.io/releases/docs/v1.3.0/docker/}
+    \item More information on docker available in \href{http://klee.github.io/releases/docs/v1.3.0/docker/}{github}
 \end{enumerate}
 
 \subsection{Modelling the symbolic side channel attack}
