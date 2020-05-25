@@ -71,7 +71,7 @@ XXX
 
 To invesigate the scalability of adaptive side channel attacks in \texttt{Klee}, we first model a side channel attack and investigate the adaptive $k$-step attack in \texttt{Klee}.
 
-\subsection{Modelling the symbolic side channel attack}
+\subsection{Modelling the adaptive symbolic side channel attack}
 \label{subsec:modellingsscattack}
 
 We consider a simple side channel attack via symbolic execution.
@@ -79,8 +79,8 @@ Consider the code snippet provided below:
 \begin{verbatim}
 int vulnerable_code(int public_input) {
 
-if (secret >= public_input) { return 1; } # Cost is 1
-else { return 2; } # Cost is 2
+if (secret >= public_input) { return 1; } // Cost is 1
+else { return 2; } // Cost is 2
 
 }
 \end{verbatim}
@@ -92,6 +92,13 @@ Now the idea is to apply $k$-step attack, such that we extract some information 
 For example, let $\{1 \dots 6\}$ be the domain of the secret (which we assume to know) and suppose we apply a $2$-step attack.
 Here, we choose two public inputs such that we slice the domain such that we retrive the secret key depending on the cost measurement.
 Given enough $k$, it is possible to retreive the secret key completely however it is not practical as search tree size grows exponentially.
+However, if we simply choose $k$ independent public inputs then narrowing down to the secret is very hard.
+On the other hand, choosing public inputs based on previous cost observations make it very easy.
+For example, for the same example we discussed XXX
+
+In symbolic analysis, we make both the secret and public inputs symbolic.
+Usually symbolic execution is used for synthesis of best side channel attack (considering it is expensive and not so scalable), however here we will only investigate the scalability of \texttt{Klee}.
+But it is important to note that in symbolic analysis, which \emph{encodes} all paths in terms of path conditions, it is possible to identify the leakage and thus synthesize best side channel attack.
 
 XXX
 
