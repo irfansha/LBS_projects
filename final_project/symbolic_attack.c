@@ -49,18 +49,17 @@ main (int argc, char *argv[])
 	int domain_size = rb;     // domain size
 	int step = 0;    //Step number
         int k = atoi(argv[2]);	// number of total steps
-	char* outfile = argv[3];
 	int public_inputs[k];
 	int cost_observations[k];  // array for storing cost observations
 
         int total_cost = 0;
 
-	// Restting public inputs:
+	// Resetting public inputs:
 	for (int i = 0; i < k; i++) {
 		public_inputs[i] = 0;
 	}
 
-	// Restting cost observations:
+	// Resetting cost observations:
 	for (int i = 0; i < k; i++) {
 		cost_observations[i] = 0;
 	}
@@ -93,20 +92,4 @@ main (int argc, char *argv[])
 	        }
           }
 	assert(lb <= rb);
-
-	FILE *fptr;
-	fptr = fopen(outfile,"a");
-	// Writing domain size and k to file:
-	fprintf(fptr,"%d %d ", domain_size, k);
-	// Writing public inputs to file:
-	for (int i = 0; i < k; i++) {
-		fprintf(fptr,"%d ", public_inputs[i]);
-	}
-	// Writing cost observations to file:
-	for (int i = 0; i < k; i++) {
-		fprintf(fptr,"%d ", cost_observations[i]);
-	}
-	// Writing secret, final left bound, right bound and total cost:
-	fprintf(fptr,"%d %d %d %d\n", secret, lb, rb, total_cost);
-	fclose(fptr);
 }
