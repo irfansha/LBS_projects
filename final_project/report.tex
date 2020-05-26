@@ -109,6 +109,10 @@ XXX
 \subsection{Software: \texttt{Klee} and our experimentation setup}
 \label{subsec:softwares}
 
+\href{https://klee.github.io/}{\texttt{Klee}} is a open source symbolic execution tool that runs on top of LLVM infrastructure.
+More details are presented in paper XXX.
+Generally used to analyse the coverage of code in C/C++ which is inturn compiled into LLVM. 
+
 Docker usage:
 \begin{enumerate}
     \item \texttt{sudo docker run --rm -ti --ulimit='stack=-1:-1' klee/klee}
