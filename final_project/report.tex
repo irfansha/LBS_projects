@@ -203,6 +203,16 @@ XXX
 Symbolic execution of adaptive side channel attack is an earlier stage of bigger problem i.e., the synthesis of optimal side channel attack.
 The natural next step is to use the data produced in section XXX (instead of explicit data, a constraint solver can be used to find right values) and synthesising the public inputs with maximum information leakage.
 
+\subsection{Initial investigation on quantifying informations leakage and \texttt{Klee} heuristics}
+\label{subsec:initialinvestigationleakage}
+
+We generated data (XXX add link) for different heuristics and investigated if new paths are observed for different heuristics.
+We applied brute force search, i.e., searching through all paths of basic run data (without heuristics) and compared with various heuristics.
+The observations are not so significant, we observed some paths are being explored via new heuristics but they are quite rare questioning the impact of heuristics.
+However, it is important to note that we did not drive our symbolic attack towards maximizing the secret leakage.
+For example, asserting if the final bounds (lb and rb) are equal can guide \texttt{Klee} towards better information leakage.
+Thus, heuristics might play a bigger role in regards to synthesis of best side channel attacks and better scalability which still needs to be investigated.
+
 
 
 \bibliographystyle{plain}
