@@ -104,10 +104,19 @@ Here, we choose two public inputs such that we slice the domain such that we ret
 Given enough $k$, it is possible to retreive the secret key completely however it is not practical as search tree size grows exponentially.
 However, if we simply choose $k$ independent public inputs then narrowing down to the secret is very hard.
 On the other hand, choosing public inputs based on previous cost observations make it very easy.
-For example, for the same example we discussed XXX
+For example, for the above example if we choose ${5,6}$ where the costs observed are ${1,2}$ respectively thus the domain is restricted to ${6}$ via ${5,6}$. It is clear that adaptive attacks are very powerful.
 
-In symbolic analysis, we make both the secret and public inputs symbolic.
-Usually symbolic execution is used for synthesis of best side channel attack (considering it is expensive and not so scalable), however here we will only investigate the scalability of \texttt{Klee}.
+The challenge here is to model all possible paths of publich inputs and secret, thus we make them symbolic.
+The following is syntax for making variables symbolic in \texttt{Klee}
+\begin{verbatim}
+// Making the secret symbolic:
+klee_make_symbolic(&secret,sizeof(int),"secret");
+
+// Making the public inputs symbolic:
+klee_make_symbolic(public_inputs,k * sizeof(int),"public inputs");
+\end{verbatim}
+
+Usually symbolic execution is used for synthesis of best side channel attack (we discuss further in outlook section XXX), however here we will only investigate the scalability of \texttt{Klee}.
 But it is important to note that in symbolic analysis, which \emph{encodes} all paths in terms of path conditions, it is possible to identify the leakage and thus synthesize best side channel attack.
 
 XXX
