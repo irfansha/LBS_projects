@@ -4,7 +4,7 @@ import sys
 
 # Calls symbolic attack on x:
 def call_symbolic_attack(rb, k):
-	os.system("klee " + " --optimize --output-dir=data_new/performance_data_" + str(rb) + "_" + str(k) + "symbolic_attack.bc " + str(rb) + " " + str(k))
+	os.system("klee " + " --optimize -write-no-tests --output-dir=performance_data/run_data_" + str(rb) + "_" + str(k) + " symbolic_attack.bc " + str(rb) + " " + str(k))
 
 '''
 Now allowing multiple heuristic choices
@@ -51,7 +51,7 @@ def call_heu_symbolic_attack(rb, k, heur):
 	else:
 		heur_option = "--search=dfs --search=random-state --search=random-path --search=nurs:covnew --search=nurs:md2u --search=nurs:depth --search=nurs:icnt --search=nurs:cpicnt --search=nurs:qc"
 		dir_name = "all"
-	os.system("klee " + heur_option + " --optimize --output-dir=data_new/performance_data_" + dir_name + "_" + str(rb) + "_" + str(k) +  " symbolic_attack.bc " + str(rb) + " " + str(k))
+	os.system("klee " + heur_option + " --optimize -write-no-tests --output-dir=performance_data/run_data_" + dir_name + "_" + str(rb) + "_" + str(k) +  " symbolic_attack.bc " + str(rb) + " " + str(k))
 
 def main(argv):
 	rb = int(sys.argv[1])
@@ -60,11 +60,11 @@ def main(argv):
 
 	if heur == 0:
 		# Looping through each k:
-		for k in range(1, max_k+1):
+		for k in range(8, max_k+1, 2):
 			call_symbolic_attack(rb, k)
 	else:
 		# Looping through each k:
-		for k in range(1, max_k+1):
+		for k in range(8, max_k+1, 2):
 			call_heu_symbolic_attack(rb, k, heur)
 
 if __name__ == "__main__":
