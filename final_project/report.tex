@@ -65,7 +65,14 @@ XXX
 \section{Research questions}
 \label{sec:researchquestions}
 
-XXX
+Symbolic execution/analysis does result in optimal attack synthesis among other advantages, it is due to all possible paths are modelled into constraints and then analysed.
+However, the obvious challenge is that the state space increases exponentially.
+Different tools employ different techniques to overcome this well know challenge, now the question here is \emph{What does Klee do differently?}
+In the literature XXX add paper, Symbolic Path Finder is a java based symbolic tool was used to analyze the adaptive side channel attack and quantify information leakage.
+The SPF implementation of this problem timeout for larger domains and k (XXX add more accurate data) and they employed heuristics to explore some set states to achieve better scalability (to some extent).
+
+In this project, we want to investigate if \texttt{Klee} employ any specific techniques for scalability.
+There are several heuristics for exploring the search space and solver chains that can be used.
 
 \newpage
 
