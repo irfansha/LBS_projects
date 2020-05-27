@@ -158,6 +158,28 @@ klee -emit-all-errors symbolic_attack.bc 1 6 2
 ktest-tool test000018.ktest
 \end{verbatim}
 
+We use our adaptive side channel attack model, and investigate different heuristics and solvers provided by \texttt{Klee}.
+Here are the list of heuristics we consider:
+\begin{enumerate}
+\item dfs - uses Depth First Search (DFS)
+\item random-state - randomly selects a state to explore
+\item random-path - uses Random Path Selection
+\item Non Uniform Random Search (NURS):
+  \begin{enumerate}
+  \item covnew - uses Coverage-New heuristic
+  \item md2u - uses Min-Dist-to-Uncovered heuristic
+  \item depth - uses $2^d$ ($d$ is depth) heuristic
+  \item icnt - uses Instr-Count heuristic
+  \item cpicnt - uses CallPath-Instr-Count heuristic
+  \item qc- uses Query-Cost heuristic
+  \end{enumerate}
+\item we also consider no heuristics and all heuristics interleaved.
+\end{enumerate}
+
+A key point to remember with the different heuristics is that, they only dictate with symbolic state to expand next.
+That implies, a full scale exploration of search trees will not be effected much by the heuristics.
+In our experimentation we cut of the trees with certain $k$ so heuristics might play a role here (or not).
+
 
 \subsection{Data and analysis}
 \label{subsec:dataandanalysis}
