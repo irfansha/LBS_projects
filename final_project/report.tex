@@ -119,7 +119,20 @@ klee_make_symbolic(public_inputs,k * sizeof(int),"public inputs");
 Usually symbolic execution is used for synthesis of best side channel attack (we discuss further in outlook section XXX), however here we will only investigate the scalability of \texttt{Klee}.
 But it is important to note that in symbolic analysis, which \emph{encodes} all paths in terms of path conditions, it is possible to identify the leakage and thus synthesize best side channel attack.
 
-XXX
+Now the major challenge is to simulate adaptive attack, in \texttt{Klee} there is no explicit way to specify the bounds of each symbolic variable (that we aware of).
+As discussed in the above example the domain of the secret reduces by the pervious cost observations, we model this by left and right bounds (lb, rb) which are updated through out the execution.
+Here is the snippet of code that narrows down the secret domain via left and right bounds:
+\begin{verbatim}
+// Iterate and run `vulnerable function'
+for [each k] {
+  int cost = vulnerable_function(public_inputs[step]);
+
+  //Here we update the domain boundaries secret input
+  if (cost == 1) { rb = public_inputs[step] - 1;}
+  else { lb = public_inputs[step]; }
+
+}
+\end{verbatim}
 
 \subsection{Software: \texttt{Klee} and our experimentation setup}
 \label{subsec:softwares}
