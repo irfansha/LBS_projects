@@ -205,7 +205,12 @@ Here are the solvers we consider:
 
 It is well known that, in symbolic execution the major time spent is in solver computations, thus it is crucial to investigate the scalability of solvers that are available in \texttt{Klee}
 For our experiments, we use a computer with following specification:
-XXX
+\begin{verbatim}
+Architecture: x86_64
+CPU(s):       4
+Model name:   Intel(R) Core(TM) i5-5200U CPU @ 2.20GHZ
+BogoMIPS:     4389.72
+\end{verbatim}
 
 The source code for our symbolic adaptive side channel attack is available here XXX.
 The script we use for running different heuristics and solvers are also available in the same repository.
