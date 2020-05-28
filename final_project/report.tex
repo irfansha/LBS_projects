@@ -173,19 +173,6 @@ Using this modelling, we investigate the scalability in \texttt{Klee} and we dis
 More details are presented in paper XXX.
 Generally used to analyse the coverage of code in C/C++ which is inturn compiled into LLVM. 
 
-Docker usage:
-\begin{enumerate}
-    \item \texttt{sudo docker run --rm -ti --ulimit='stack=-1:-1' klee/klee}
-    \item More information on docker available in \href{http://klee.github.io/releases/docs/v1.3.0/docker/}{github}
-\end{enumerate}
-
-Instructions to use for compilation, run and looking at testcases:
-\begin{verbatim}
-clang -I ../../include -emit-llvm -c -g ./examples/project_proto/symbolic_attack.c
-klee -emit-all-errors symbolic_attack.bc 1 6 2
-ktest-tool test000018.ktest
-\end{verbatim}
-
 We use our adaptive side channel attack model, and investigate different heuristics and solvers provided by \texttt{Klee}.
 Here are the list of heuristics we consider:
 \begin{enumerate}
@@ -210,24 +197,27 @@ In our experimentation we cut of the trees with certain $k$ so heuristics might 
 
 Here are the solvers we consider:
 \begin{enumerate}
-\item STP (XXX provide reference to original paper)
-\item Z3 (XXX provide reference)
+\item STP
+\item Z3
 \item Counter example  caching solver
 \item Independence solver
 \end{enumerate}
 
-XXX Add few points on each solver.
+It is well known that, in symbolic execution the major time spent is in solver computations, thus it is crucial to investigate the scalability of solvers that are available in \texttt{Klee}
+For our experiments, we use a computer with following specification:
+XXX
+
+The source code for our symbolic adaptive side channel attack is available here XXX.
+The script we use for running different heuristics and solvers are also available in the same repository.
 
 \subsection{Data and analysis}
 \label{subsec:dataandanalysis}
 
-List of figures:
-\begin{enumerate}
-\item XXX
-\item XXX
-\item XXX
-\item XXX
-\end{enumerate}
+Following the experimentation set-up, we have generated data for various heuristics and solvers (raw data is available here XXX).
+For scalability, we are consider two parameters, total time and solver time for increasing domain sizes and $k$ steps.
+
+The figures \ref{fig:basic_heur_tt} and \ref{fig:basic_heur_st} illustrate the total and solver time for basic heuristics.XXX
+Similarly, the figures \ref{fig:nonuni_heur_tt} and \ref{fig:nonuni_heur_st} show the variation for non-uniform random heuristics.
 
 \begin{figure}[h]
 \centering
@@ -260,6 +250,16 @@ List of figures:
 \caption{Solver time with Non-uniform random heuristics}
 \centering
 \end{figure}
+
+XXX add the observations from the plots
+
+The following table provide the total and solver times for different solvers:
+XXX
+
+From the table it is clear that, Z3 performs surprisingly worse compared to other solvers.
+However the difference is not exponentially increasing but perhaps only a constant.
+
+The following table presents the extend we were able to run for the domain size XXX and increasing $k$
 
 XXX
 
