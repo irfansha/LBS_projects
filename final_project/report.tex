@@ -29,8 +29,6 @@
 \label{sec:todosforis}
 
 \begin{enumerate}
-  \item Plots added, to be rearranged appropriately.
-  \item Add table for solver data.
   \item Running the script for larger domain size and $k$-step attack.
   \item Added system details (specifications) as part of experimentation section.
 \end{enumerate}
@@ -255,10 +253,31 @@ Similarly, the figures \ref{fig:nonuni_heur_tt} and \ref{fig:nonuni_heur_st} sho
 \centering
 \end{figure}
 
-XXX add the observations from the plots
+The table \ref{fig:solvertime} provide the solver times for different solvers.
+Here the total time is almost equal to the solver times(usually $97$ percentage),
+so looking at solver times is sufficient enough to get a good idea.
 
-The following table provide the total and solver times for different solvers:
-XXX
+\begin{figure}
+\centering
+\begin{tabular}{|c|c|c|c|c|}
+\hline
+\textbf{Domain size} & stp & z3 & cex & ind \\ \hline \hline
+1000 & 84.908256 & 201.205725 & 86.578195 & 84.817953 \\
+2000 & 88.516439 & 212.2281 & 88.266316 & 87.881535 \\
+3000 & 90.361902 & 220.282183 & 90.698298 & 91.460136 \\
+4000 & 90.868617 & 227.692224 & 89.768262 & 90.965436 \\
+5000 & 92.249937 & 237.322899 & 93.407886 & 92.557288 \\
+6000 & 91.73592 & 232.597158 & 91.774256 & 92.16203 \\
+7000 & 92.14107 & 236.883911 & 92.170761 & 91.923944 \\
+8000 & 91.497112 & 238.015212 & 92.022306 & 92.270304 \\
+9000 & 98.2179 & 252.089498 & 96.723129 & 96.277674 \\
+10000 & 96.0498 & 248.172816 & 95.971008 & 96.822 \\
+\hline
+\end{tabular}
+\caption{Solver time spent for various solvers ($k = 8$).}
+\label{fig:solvertime}
+\end{figure}
+
 
 From the table it is clear that, Z3 performs surprisingly worse compared to other solvers.
 However the difference is not exponentially increasing but perhaps only a constant.
