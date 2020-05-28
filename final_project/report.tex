@@ -16,7 +16,7 @@
 \begin{titlingpage}
     \maketitle
     \begin{abstract}
-        In this report we review the subject of side-channel attacks and how symbolic execution is used in this context[...]
+        In this report we review the subject of side-channel attacks and how symbolic execution is used in this context. We describe the concept of side-channel attacks and use the technology Klee to model it. Our program models a $k$-step attack. We investigate the program though experiments and evaluate the data and limitations of our program.
     \end{abstract}
 \end{titlingpage}
 
@@ -40,17 +40,16 @@
 \section{Introduction}
 \label{cha:introduction}
 
-In the age of information, security is a crucial part of every day aspects.
+Security is a crucial part of everyday aspects in the age of information.
 While a lot of effort is being put into developing secure systems, some attacks can easily overcome most secure systems.
-Side channel attacks are one such attacks, the core is to \emph{listen} to the system from distance (often without the knowledge of data owner) and retrieve the sensitive information under the hood.
+Side-channel attacks are one such type of attacks. The core is to \emph{listen} to the system from distance (often without the knowledge of data owner) and retrieve the sensitive information under the hood.
 
-One of the current efforts to tackle side channel attacks is to use symbolic execution techniques and somehow quantify the information leakage (and finally avoid/minimize it).
-We consider the research done by Quoc-Sang Phan et al., \cite{phan2017synthesis} regarding the synthesis of adaptive side channel attacks.
+One of the current efforts to tackle side-channel attacks is to use symbolic execution techniques and quantify the information leakage (and finally avoid/minimize it).
+We consider the research done by Quoc-Sang Phan et al., \cite{phan2017synthesis} regarding the synthesis of adaptive side-channel attacks.
 
-In the following subsections, we first summarize the discussion on side channel attacks and their synthesis as described by Quoc-Sang Phan et al., and in section \ref{sec:researchquestions} we discuss the main research questions we consider.
+In the following subsections, we first summarize the discussion on side-channel attacks and their synthesis as described by Quoc-Sang Phan et al. In section \ref{sec:researchquestions} we discuss the main research questions we consider.
 Further in the section \ref{sec:experimentationanddesign}, we provide our modelling of the problem, experimental set-up as well as data analysis.
 Finally in the section \ref{sec:futurework}, we conclude our observation and discuss possible future work in this direction.
-
 \subsection{Side channel attacks}
 \label{sec:sidechannelattacks}
 
