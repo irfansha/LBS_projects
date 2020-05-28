@@ -162,6 +162,10 @@ for [each k] {
 }
 \end{verbatim}
 
+Finally, we will only consider valid inputs i.e., we check if the public input is within current bounds and if it is non repeating.
+While this generates some additional paths, they are only linear in the number of steps.
+Using this modelling, we investigate the scalability in \texttt{Klee} and we discuss our experimental setup below.
+
 \subsection{Software: \texttt{Klee} and our experimentation setup}
 \label{subsec:softwares}
 
