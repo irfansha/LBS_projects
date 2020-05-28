@@ -40,16 +40,16 @@
 \section{Introduction}
 \label{cha:introduction}
 
-XXX Initial paragraph to be added (Irfan can do it)
+In the age of information, security is a crucial part of every day aspects.
+While a lot of effort is being put into developing secure systems, some attacks can easily overcome most secure systems.
+Side channel attacks are one such attacks, the core is to \emph{listen} to the system from distance (often without the knowledge of data owner) and retrieve the sensitive information under the hood.
 
-This section is written on the basis of \cite{phan2017synthesis}.
-%\begin{enumerate}
-%\item The main challenge here is to tackle the side channel attacks.
-%\item Symbolic variables are added to probabilistic outcome and leaking is measured by quantification.
-%\item Tools to use, Symbolic PathFinder and used them on Java program
-%\item The key idea is to quantify the information leakage in standard functions such as Random functions.
-%\item While injected randomness can be used as a counter measure, it is essential to measure the effectiveness the measures.
-%\end{enumerate}
+One of the current efforts to tackle side channel attacks is to use symbolic execution techniques and somehow quantify the information leakage (and finally avoid/minimize it).
+We consider the research done by Quoc-Sang Phan et al., \cite{phan2017synthesis} regarding the synthesis of adaptive side channel attacks.
+
+In the following subsections, we first summarize the discussion on side channel attacks and their synthesis as described by Quoc-Sang Phan et al., and in section \ref{sec:researchquestions} we discuss the main research questions we consider.
+Further in the section \ref{sec:experimentationanddesign}, we provide our modelling of the problem, experimental set-up as well as data analysis.
+Finally in the section \ref{sec:futurework}, we conclude our observation and discuss possible future work in this direction.
 
 \subsection{Side channel attacks}
 \label{sec:sidechannelattacks}
@@ -269,7 +269,7 @@ The following table presents the extend we were able to run for the domain size 
 XXX
 
 
-\section{Outlook and future work}
+\section{Conclusion and future work}
 \label{sec:futurework}
 
 Symbolic execution of adaptive side channel attack is an earlier stage of bigger problem i.e., the synthesis of optimal side channel attack.
