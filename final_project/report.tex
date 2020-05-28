@@ -282,10 +282,29 @@ so looking at solver times is sufficient enough to get a good idea.
 From the table it is clear that, Z3 performs surprisingly worse compared to other solvers.
 However the difference is not exponentially increasing but perhaps only a constant.
 
-The following table presents the extend we were able to run for the domain size XXX and increasing $k$
+The table \ref{fig:scalability} presents the extend we were able to run for the domain size $10^4$ and increasing $k$.
+We can observe that the time taken increases exponentially, in fact, it took $10$ hours for $k = 14$ and timed-out for $k=16$.
+The same can be observed with the number of instructions executed which is proportional to time taken.
+Here, regardless of the domain size we can establish that \texttt{Klee} on this machine will time-out for $k=16$ unless there is a significant improvement via heuristics (which does not seems to be the case for this problem).
 
-XXX
-
+\begin{figure}
+\centering
+\begin{tabular}{|c|c|c|}
+\hline
+\textbf{k}  & Instrs  & Time(s) \\ \hline \hline
+2  &     762 &     0.30 \\
+4  &    3798 &     2.57 \\
+6  &   17850 &    17.31 \\
+8  &   82014 &    97.56 \\
+10 &  370818 &   569.19 \\
+12 & 1654950 &  3666.98 \\
+14 & 7307466 & 37228.37 \\
+16 &  TO &  TO \\
+\hline
+\end{tabular}
+\caption{Intructions and time taken for increasing $k$ (for $10^4$ domain size).}
+\label{fig:scalability}
+\end{figure}
 
 \section{Conclusion and future work}
 \label{sec:futurework}
