@@ -45,13 +45,32 @@
 
 \section{Literature review}
 \label{cha:literaturereview}
-
-XXX
+This section is written with the basis on \cite{phan2017synthesis}.
+%\begin{enumerate}
+%\item The main challenge here is to tackle the side channel attacks.
+%\item Symbolic variables are added to probabilistic outcome and leaking is measured by quantification.
+%\item Tools to use, Symbolic PathFinder and used them on Java program
+%\item The key idea is to quantify the information leakage in standard functions such as Random functions.
+%\item While injected randomness can be used as a counter measure, it is essential to measure the effectiveness the measures.
+%\end{enumerate}
 
 \subsection{Side channel attacks}
 \label{sec:sidechannelattacks}
 
-XXX 
+Side-channel attacks are a general type of attack. The idea is that an adversary exploits non-functional aspects of a program. This can be various aspects, such as execution time, network traffic or memory. The topic of side-channel attacks is a prerequisite and the basis that supports understanding of symbolic execution. In our case we are considering adaptive side-channel attacks. These are a subgroup of attacks. The addition of calling a side-channel attack adaptive is that the attack spans over multiple runs. At each of these runs the adversary will choose a value for so-called low input. In this context low input means the public input. The adversary will make a choice by considering all previous runs. This attributes to the attacker's knowledge. One can think of this adversary concretely as though he is gradually recovering a secret value. In this case a value that is a constant between all the runs, such as a secret key in cryptography. 
+
+\subsubsection{Formal definition}
+
+We are going to define side-channel attacks. First we define a program $P(H,L)$. $P$ is a deterministic program. $H$ is the high input, which is defined as the secret input in this context. $L$ is the low input, which is defined as the public input in this context. To define the attack we make two assumptions. Firstly, the attacker can make \textit{one} observation in each run and there are no errors in his measurements. Secondly, the attackers knows the details of how the program $P$ is implemented. The idea is that the attacker can not make an observation to retrieve the entire secret data in just one round. The point is to make the attack adaptive with multiple runs and gradually learn from each try. By changing his choice of low input, he should learn different information about the secret data in each run. 
+
+\subsubsection{Attacker model}
+
+An attacker model strives to specify how the attacker is defined in regards to access and participation in the communication. Here the attacker is defined as a partial function $A$. Since he has to make choices based on previous observations, he takes the set of prior observations as input. $A$ returns the low value $l$ that he will use in the next attack run. 
+\\An attack is defined as a $k$-step process. \cite{phan2017synthesis} models the interaction between the attacker $A$ and the program $P$ as a system $S = (A,P,k,cost(\cdot))$. $A$ is the attacker, $P$ is the program, $k$ is the step and $cost(\cdot)$ determines the side-channel observations for the execution. In $S$, $A$ chooses $l$ values for multiple program runs to determine a secret $h$. 
+
+\subsubsection{Attacker's knowledge}
+
+After full execution of $k$ steps, the attacker makes $k$ observations $o_1,o_2,...,o_k$ after choosing $l$ values $l_1,l_2,...,l_k$. We talk about the secret as having an initial domain $D$. What the attacker exactly learns in each step is that giving $l_i$ 
 
 \subsection{Symbolic execution}
 \label{sec:symbolicexecution}
