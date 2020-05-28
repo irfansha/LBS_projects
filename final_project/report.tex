@@ -10,6 +10,7 @@
 
 \usepackage{natbib}
 \usepackage{graphicx}
+\usepackage{amsmath}
 
 \begin{document}
 \begin{titlingpage}
@@ -41,11 +42,9 @@
 
 [...]
 
-\newpage
-
 \section{Literature review}
 \label{cha:literaturereview}
-This section is written with the basis on \cite{phan2017synthesis}.
+This section is written on the basis of \cite{phan2017synthesis}.
 %\begin{enumerate}
 %\item The main challenge here is to tackle the side channel attacks.
 %\item Symbolic variables are added to probabilistic outcome and leaking is measured by quantification.
@@ -74,10 +73,23 @@ After full execution of $k$ steps, the attacker makes $k$ observations $o_1,o_2,
 
 \subsection{Symbolic execution}
 \label{sec:symbolicexecution}
+This section is written on the basis of \cite{phan2017synthesis} and \cite{malacaria2018symbolic}.
+\\\\
+Symbolic analysis is concerned with techniques that can e.g. detect vulnerabilities due to side-channel attacks. Symbolic execution is a program analysis technique. It executes a program on symbolic inputs. The symbolic inputs represent concrete inputs. The analysis results in symbolic paths. Each path has a path condition. A path condition is a conjunction of constraints, and these are from the set of symbolic inputs characterizing the concrete inputs following that path. The solution to dealing with loops and recursion is to put a bound on the depth of the paths.  
 
-XXX
+\subsubsection{Symbolic attacker model}
+There are a few alterations from the original attacker model. In this case we call it a system defined as $S_{sym}(P,k,cost(\cdot))$. The secret $h$ is modelled using a symbolic variable. The other difference is that low values $l$ are also modelled using a fresh symbolic variable, since we do not know the maximal leakage low value in advance.
+\\The symbolic execution $S_{sym}$ results in a set of symbolic paths corresponding to the $k$ steps. The resulting paths represent all the potential adaptive attacks up to $k$ runs. 
+\\The outcome of symbolically executing $S_{sym}$ is the beforementioned paths. These can be organized into a tree. In the tree, nodes are the attacker moves, which means the choice of low values based on observations. On the path there are path conditions computed for different observations. The leaves are path constraints. They represent the attacker's knowledge after $k$ steps. 
 
-\newpage
+\subsubsection{Synthesizing attacks}
+It is possible to use greedy heuristics to save computation power. They can be used for generating the attack such that you explore a portion of the symbolic attack model in each step. Some of these heuristics are based on two measurements that are possible to calculate. They are \textit{channel capacity} and \textit{Shannon entropy}. They can be used to reason about sequences of observations in the system. 
+\\Channel capacity \cite{smithQIF} is based on a theorem that says the leakage for a program in bits is less than or equal to log of the possible distinct observations an attacker can make. 
+\\Shannon entropy is a result that gives a measurement of the amount of leakage of the side-channel. It takes into account the observation gain (bits learned) of the secret value after an observation. Assume we have a sequence of observations $o_i^k = \langle o_1,o_2,...,o_k \rangle$, then $p(o_i^k)$ is the probability of observing $o_i^k$. Shannon entropy is defined as 
+\begin{align*}
+    \mathcal{H}^k(P) = -\sum_{o_i^k} p(o_i^k) log_2(p(o_i^k))
+\end{align*}
+The best attacker picks low values that result in the highest leakage.
 
 \section{Research questions}
 \label{sec:researchquestions}
@@ -93,8 +105,6 @@ There are several heuristics for exploring the search space and solver chains th
 
 Investigating solvers chains is essential for symbolic execution, as the most of the time spent is in solver execution.
 In this project, for the adaptive side channel attack we investigate the impact of various solvers provided in \texttt{Klee}.
-
-\newpage
 
 \section{Experimentation setup and Analysis}
 \label{sec:experimentationanddesign}
@@ -251,7 +261,6 @@ List of figures:
 
 XXX
 
-\newpage
 
 \section{Outlook and future work}
 \label{sec:futurework}
