@@ -25,13 +25,13 @@
 \setcounter{section}{-1}
 
 
-\section{Todos for IS}
-\label{sec:todosforis}
+%\section{Todos for IS}
+%\label{sec:todosforis}
 
-\begin{enumerate}
-  \item Running the script for larger domain size and $k$-step attack.
-  \item Added system details (specifications) as part of experimentation section.
-\end{enumerate}
+%\begin{enumerate}
+%  \item Running the script for larger domain size and $k$-step attack.
+%  \item Added system details (specifications) as part of experimentation section.
+%\end{enumerate}
 
 \newpage
 
@@ -48,6 +48,11 @@ We consider the research done by Quoc-Sang Phan et al., \cite{phan2017synthesis}
 In the following subsections, we first summarize the discussion on side-channel attacks and their synthesis as described by Quoc-Sang Phan et al. In section \ref{sec:researchquestions} we discuss the main research questions we consider.
 Further in the section \ref{sec:experimentationanddesign}, we provide our modelling of the problem, experimental set-up as well as data analysis.
 Finally in the section \ref{sec:futurework}, we conclude our observation and discuss possible future work in this direction.
+
+section{Literature review}
+\label{cha:literaturereview}
+This section is written on the basis of \cite{phan2017synthesis}.
+
 \subsection{Side channel attacks}
 \label{sec:sidechannelattacks}
 
@@ -60,7 +65,8 @@ We are going to define side-channel attacks. First we define a program $P(H,L)$.
 \subsubsection{Attacker model}
 
 An attacker model strives to specify how the attacker is defined in regards to access and participation in the communication. Here the attacker is defined as a partial function $A$. Since he has to make choices based on previous observations, he takes the set of prior observations as input. $A$ returns the low value $l$ that he will use in the next attack run. 
-\\An attack is defined as a $k$-step process. \cite{phan2017synthesis} models the interaction between the attacker $A$ and the program $P$ as a system $S = (A,P,k,cost(\cdot))$. $A$ is the attacker, $P$ is the program, $k$ is the step and $cost(\cdot)$ determines the side-channel observations for the execution. In $S$, $A$ chooses $l$ values for multiple program runs to determine a secret $h$. 
+
+An attack is defined as a $k$-step process. \cite{phan2017synthesis} models the interaction between the attacker $A$ and the program $P$ as a system $S = (A,P,k,cost(\cdot))$. $A$ is the attacker, $P$ is the program, $k$ is the step and $cost(\cdot)$ determines the side-channel observations for the execution. In $S$, $A$ chooses $l$ values for multiple program runs to determine a secret $h$. 
 
 \subsubsection{Attacker's knowledge}
 
@@ -74,13 +80,17 @@ Symbolic analysis is concerned with techniques that can e.g. detect vulnerabilit
 
 \subsubsection{Symbolic attacker model}
 There are a few alterations from the original attacker model. In this case we call it a system defined as $S_{sym}(P,k,cost(\cdot))$. The secret $h$ is modelled using a symbolic variable. The other difference is that low values $l$ are also modelled using a fresh symbolic variable, since we do not know the maximal leakage low value in advance.
-\\The symbolic execution $S_{sym}$ results in a set of symbolic paths corresponding to the $k$ steps. The resulting paths represent all the potential adaptive attacks up to $k$ runs. 
-\\The outcome of symbolically executing $S_{sym}$ is the beforementioned paths. These can be organized into a tree. In the tree, nodes are the attacker moves, which means the choice of low values based on observations. On the path there are path conditions computed for different observations. The leaves are path constraints. They represent the attacker's knowledge after $k$ steps. 
+
+The symbolic execution $S_{sym}$ results in a set of symbolic paths corresponding to the $k$ steps. The resulting paths represent all the potential adaptive attacks up to $k$ runs. 
+
+The outcome of symbolically executing $S_{sym}$ is the beforementioned paths. These can be organized into a tree. In the tree, nodes are the attacker moves, which means the choice of low values based on observations. On the path there are path conditions computed for different observations. The leaves are path constraints. They represent the attacker's knowledge after $k$ steps. 
 
 \subsubsection{Synthesizing attacks}
 It is possible to use greedy heuristics to save computation power. They can be used for generating the attack such that you explore a portion of the symbolic attack model in each step. Some of these heuristics are based on two measurements that are possible to calculate. They are \textit{channel capacity} and \textit{Shannon entropy}. They can be used to reason about sequences of observations in the system. 
-\\Channel capacity \cite{smithQIF} is based on a theorem that says the leakage for a program in bits is less than or equal to log of the possible distinct observations an attacker can make. 
-\\Shannon entropy is a result that gives a measurement of the amount of leakage of the side-channel. It takes into account the observation gain (bits learned) of the secret value after an observation. Assume we have a sequence of observations $o_i^k = \langle o_1,o_2,...,o_k \rangle$, then $p(o_i^k)$ is the probability of observing $o_i^k$. Shannon entropy is defined as 
+
+Channel capacity \cite{smithQIF} is based on a theorem that says the leakage for a program in bits is less than or equal to log of the possible distinct observations an attacker can make. 
+
+Shannon entropy is a result that gives a measurement of the amount of leakage of the side-channel. It takes into account the observation gain (bits learned) of the secret value after an observation. Assume we have a sequence of observations $o_i^k = \langle o_1,o_2,...,o_k \rangle$, then $p(o_i^k)$ is the probability of observing $o_i^k$. Shannon entropy is defined as 
 \begin{align*}
     \mathcal{H}^k(P) = -\sum_{o_i^k} p(o_i^k) log_2(p(o_i^k))
 \end{align*}
@@ -89,27 +99,27 @@ The best attacker picks low values that result in the highest leakage.
 \section{Research questions}
 \label{sec:researchquestions}
 
-Symbolic execution/analysis does result in optimal attack synthesis among other advantages, it is due to all possible paths are modelled into constraints and then analysed.
+Symbolic execution/analysis does result in optimal attack synthesis among other advantages. It is due to the fact that all possible paths are modelled into constraints and then analyzed.
 However, the obvious challenge is that the state space increases exponentially.
-Different tools employ different techniques to overcome this well know challenge, now the question here is \emph{What does Klee do differently?}
-In the literature XXX add paper, Symbolic Path Finder is a java based symbolic tool was used to analyze the adaptive side channel attack and quantify information leakage.
-The SPF implementation of this problem timeout for larger domains and k (XXX add more accurate data) and they employed heuristics to explore some set states to achieve better scalability (to some extent).
+Different tools employ different techniques to overcome this well-known challenge. Now the question here is \emph{What does Klee do differently?}
+In the literature \cite{phan2017synthesis}, Symbolic Path Finder is a java based symbolic tool was used to analyze the adaptive side channel attack and quantify information leakage.
+The SPF implementation of this problem timeout for larger domains and $k$ (XXX add more accurate data) and they employed heuristics to explore some set states to achieve better scalability (to some extent).
 
 In this project, we want to investigate if \texttt{Klee} employ any specific techniques for scalability.
 There are several heuristics for exploring the search space and solver chains that can be used.
 
-Investigating solvers chains is essential for symbolic execution, as the most of the time spent is in solver execution.
-In this project, for the adaptive side channel attack we investigate the impact of various solvers provided in \texttt{Klee}.
+Investigating solver chains is essential for symbolic execution, as the most of the time spent is in solver execution.
+In this project we investigate the impact of various solvers provided in \texttt{Klee} for the adaptive side-channel attack. 
 
 \section{Experimentation setup and Analysis}
 \label{sec:experimentationanddesign}
 
-To invesigate the scalability of adaptive side channel attacks in \texttt{Klee}, we first model a side channel attack and investigate the adaptive $k$-step attack in \texttt{Klee}.
+To invesigate the scalability of adaptive side-channel attacks in \texttt{Klee}, we first model a side-channel attack and investigate the adaptive $k$-step attack in \texttt{Klee}.
 
 \subsection{Modelling the adaptive symbolic side channel attack}
 \label{subsec:modellingsscattack}
 
-We consider a simple side channel attack via symbolic execution.
+We consider a simple side-channel attack via symbolic execution.
 Consider the code snippet provided below (source code available in \href{https://github.com/irfansha/LBS_projects.git}{github}):
 \begin{verbatim}
 int vulnerable_code(int public_input) {
@@ -120,18 +130,17 @@ else { return 2; } // Cost is 2
 }
 \end{verbatim}
 
-As in any side channel attack, we need difference in some measurement (for example time) here we simply provide the cost as integer
-for comparision between different paths.
+As in any side channel attack, we need difference in some measurement (for example time) here we simply provide the cost as integer for comparision between different paths.
 
-Now the idea is to apply $k$-step attack, such that we extract some information on secret key.
+Now the idea is to apply $k$-step attack, such that we extract some information on the secret key.
 For example, let $\{1 \dots 6\}$ be the domain of the secret (which we assume to know) and suppose we apply a $2$-step attack.
 Here, we choose two public inputs such that we slice the domain such that we retrive the secret key depending on the cost measurement.
-Given enough $k$, it is possible to retreive the secret key completely however it is not practical as search tree size grows exponentially.
+Given enough $k$ it is possible to retreive the secret key completely however it is not practical as search tree size grows exponentially.
 However, if we simply choose $k$ independent public inputs then narrowing down to the secret is very hard.
 On the other hand, choosing public inputs based on previous cost observations make it very easy.
-For example, for the above example if we choose ${5,6}$ where the costs observed are ${1,2}$ respectively thus the domain is restricted to ${6}$ via ${5,6}$. It is clear that adaptive attacks are very powerful.
+For example, for the above example if we choose ${5,6}$ where the costs observed are ${1,2}$ respectively, then the domain is restricted to ${6}$ via ${5,6}$. It is clear that adaptive attacks are very powerful.
 
-The challenge here is to model all possible paths of publich inputs and secret, thus we make them symbolic.
+The challenge here is to model all possible paths of public inputs and secret, thus we make them symbolic.
 The following is syntax for making variables symbolic in \texttt{Klee}
 \begin{verbatim}
 // Making the secret symbolic:
@@ -141,11 +150,11 @@ klee_make_symbolic(&secret,sizeof(int),"secret");
 klee_make_symbolic(public_inputs,k * sizeof(int),"public inputs");
 \end{verbatim}
 
-Usually symbolic execution is used for synthesis of best side channel attack (we discuss further in outlook section XXX), however here we will only investigate the scalability of \texttt{Klee}.
-But it is important to note that in symbolic analysis, which \emph{encodes} all paths in terms of path conditions, it is possible to identify the leakage and thus synthesize best side channel attack.
+Usually symbolic execution is used for synthesis of best side-channel attack (we discuss further in outlook section XXX), however here we will only investigate the scalability of \texttt{Klee}.
+But it is important to note that in symbolic analysis, which \emph{encodes} all paths in terms of path conditions, it is possible to identify the leakage and thus synthesize best side-channel attack.
 
-Now the major challenge is to simulate adaptive attack, in \texttt{Klee} there is no explicit way to specify the bounds of each symbolic variable (that we aware of).
-As discussed in the above example the domain of the secret reduces by the pervious cost observations, we model this by left and right bounds (lb, rb) which are updated through out the execution.
+Now the major challenge is to simulate adaptive attack. In \texttt{Klee} there is no explicit way to specify the bounds of each symbolic variable (that we aware of).
+As discussed in the above example the domain of the secret reduces by the previous cost observations. We model this by left and right bounds $(lb, rb)$ which are updated throughout the execution.
 Here is the snippet of code that narrows down the secret domain via left and right bounds:
 \begin{verbatim}
 // Iterate and run `vulnerable function'
@@ -159,7 +168,7 @@ for [each k] {
 }
 \end{verbatim}
 
-Finally, we will only consider valid inputs i.e., we check if the public input is within current bounds and if it is non repeating.
+Finally, we will only consider valid inputs, i.e. we check if the public input is within current bounds and whether it is non-repeating.
 While this generates some additional paths, they are only linear in the number of steps.
 Using this modelling, we investigate the scalability in \texttt{Klee} and we discuss our experimental setup below.
 
@@ -170,8 +179,8 @@ Using this modelling, we investigate the scalability in \texttt{Klee} and we dis
 More details are presented in paper XXX.
 Generally used to analyse the coverage of code in C/C++ which is inturn compiled into LLVM. 
 
-We use our adaptive side channel attack model, and investigate different heuristics and solvers provided by \texttt{Klee}.
-Here are the list of heuristics we consider:
+We use our adaptive side-channel attack model, and investigate different heuristics and solvers provided by \texttt{Klee}.
+Here is the list of heuristics we consider:
 \begin{enumerate}
 \item dfs - uses Depth First Search (DFS)
 \item random-state - randomly selects a state to explore
@@ -188,9 +197,9 @@ Here are the list of heuristics we consider:
 \item we also consider no heuristics and all heuristics interleaved.
 \end{enumerate}
 
-A key point to remember with the different heuristics is that, they only dictate with symbolic state to expand next.
-That implies, a full scale exploration of search trees will not be effected much by the heuristics.
-In our experimentation we cut of the trees with certain $k$ so heuristics might play a role here (or not).
+A key point to remember with the different heuristics is that they only dictate which symbolic state to expand next.
+That implies a full scale exploration of search trees will not be effected much by the heuristics.
+In our experimentation we cut off the trees with certain $k$ so heuristics might play a role here (or not).
 
 Here are the solvers we consider:
 \begin{enumerate}
@@ -200,8 +209,8 @@ Here are the solvers we consider:
 \item Independence solver
 \end{enumerate}
 
-It is well known that, in symbolic execution the major time spent is in solver computations, thus it is crucial to investigate the scalability of solvers that are available in \texttt{Klee}
-For our experiments, we use a computer with following specification:
+It is well-known that in symbolic execution the major time spent is in solver computations. Thus it is crucial to investigate the scalability of solvers that are available in \texttt{Klee}.
+We use a computer with following specification for our experiments:
 \begin{verbatim}
 Architecture: x86_64
 CPU(s):       4
@@ -209,16 +218,16 @@ Model name:   Intel(R) Core(TM) i5-5200U CPU @ 2.20GHZ
 BogoMIPS:     4389.72
 \end{verbatim}
 
-The source code for our symbolic adaptive side channel attack is available here XXX.
+The source code for our symbolic adaptive side-channel attack is available here XXX.
 The script we use for running different heuristics and solvers are also available in the same repository.
 
 \subsection{Data and analysis}
 \label{subsec:dataandanalysis}
 
 Following the experimentation set-up, we have generated data for various heuristics and solvers (raw data is available here XXX).
-For scalability, we are consider two parameters, total time and solver time for increasing domain sizes and $k$ steps.
+For scalability we are considering two parameters. Total time and solver time for increasing domain sizes and $k$ steps.
 
-The figures \ref{fig:basic_heur_tt} and \ref{fig:basic_heur_st} illustrate the total and solver time for basic heuristics.XXX
+The figures \ref{fig:basic_heur_tt} and \ref{fig:basic_heur_st} illustrate the total time and solver time for basic heuristics. XXX
 Similarly, the figures \ref{fig:nonuni_heur_tt} and \ref{fig:nonuni_heur_st} show the variation for non-uniform random heuristics.
 
 \begin{figure}[h]
@@ -254,7 +263,7 @@ Similarly, the figures \ref{fig:nonuni_heur_tt} and \ref{fig:nonuni_heur_st} sho
 \end{figure}
 
 The table \ref{fig:solvertime} provide the solver times for different solvers.
-Here the total time is almost equal to the solver times(usually $97$ percentage),
+Here the total time is almost equal to the solver times (usually $97$ percentage),
 so looking at solver times is sufficient enough to get a good idea.
 
 \begin{figure}
@@ -279,11 +288,11 @@ so looking at solver times is sufficient enough to get a good idea.
 \end{figure}
 
 
-From the table it is clear that, Z3 performs surprisingly worse compared to other solvers.
+From the table it is clear that Z3 performs surprisingly worse compared to other solvers.
 However the difference is not exponentially increasing but perhaps only a constant.
 
 The table \ref{fig:scalability} presents the extend we were able to run for the domain size $10^4$ and increasing $k$.
-We can observe that the time taken increases exponentially, in fact, it took $10$ hours for $k = 14$ and timed-out for $k=16$.
+We can observe that the time taken increases exponentially. In fact it took $10$ hours for $k = 14$ and timed-out for $k=16$.
 The same can be observed with the number of instructions executed which is proportional to time taken.
 Here, regardless of the domain size we can establish that \texttt{Klee} on this machine will time-out for $k=16$ unless there is a significant improvement via heuristics (which does not seems to be the case for this problem).
 
@@ -309,17 +318,17 @@ Here, regardless of the domain size we can establish that \texttt{Klee} on this 
 \section{Conclusion and future work}
 \label{sec:futurework}
 
-Symbolic execution of adaptive side channel attack is an earlier stage of bigger problem i.e., the synthesis of optimal side channel attack.
-The natural next step is to use the data produced in section XXX (instead of explicit data, a constraint solver can be used to find right values) and synthesising the public inputs with maximum information leakage.
+Symbolic execution of adaptive side-channel attacks is an earlier stage of a bigger problem, i.e. the synthesis of optimal side-channel attacks.
+The natural next step is to use the data produced in section XXX (instead of explicit data, a constraint solver can be used to find right values) and synthesizing the public inputs with maximum information leakage.
 
 \subsection{Initial investigation on quantifying informations leakage and \texttt{Klee} heuristics}
 \label{subsec:initialinvestigationleakage}
 
 We generated data (XXX add link) for different heuristics and investigated if new paths are observed for different heuristics.
-We applied brute force search, i.e., searching through all paths of basic run data (without heuristics) and compared with various heuristics.
-The observations are not so significant, we observed some paths are being explored via new heuristics but they are quite rare questioning the impact of heuristics.
+We applied brute force search, i.e. searching through all paths of basic run data (without heuristics) and compared with various heuristics.
+The observations are not so significant. We observed some paths are being explored via new heuristics but they are quite rare questioning the impact of heuristics.
 However, it is important to note that we did not drive our symbolic attack towards maximizing the secret leakage.
-For example, asserting if the final bounds (lb and rb) are equal can guide \texttt{Klee} towards better information leakage.
+For example, asserting if the final bounds $(lb and rb)$ are equal can guide \texttt{Klee} towards better information leakage.
 Thus, heuristics might play a bigger role in regards to synthesis of best side channel attacks and better scalability which still needs to be investigated.
 
 
