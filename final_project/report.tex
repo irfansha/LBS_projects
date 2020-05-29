@@ -16,23 +16,11 @@
 \begin{titlingpage}
     \maketitle
     \begin{abstract}
-        In this report we review the subject of side-channel attacks and how symbolic execution is used in this context. We describe the concept of side-channel attacks and use the technology Klee to model it. Our program models a $k$-step attack. We investigate the program though experiments and evaluate the data and limitations of our program.
+        In this report we consider symbolic execution in the context of adaptive side-channel attacks. We breifly discuss the recent work on symbolic synthesis and model our $k$-step adaptive attack on that basis. We investigate the scalability of \texttt{Klee} for the adaptive attack and, the role of heuristics and solvers used.
     \end{abstract}
 \end{titlingpage}
 
 \tableofcontents
-\newpage
-\setcounter{section}{-1}
-
-
-\section{Todos for IS}
-\label{sec:todosforis}
-
-\begin{enumerate}
-  \item Running the script for larger domain size and $k$-step attack.
-  \item Added system details (specifications) as part of experimentation section.
-\end{enumerate}
-
 \newpage
 
 \section{Introduction}
@@ -40,7 +28,7 @@
 
 Security is a crucial part of everyday aspects in the age of information.
 While a lot of effort is being put into developing secure systems, some attacks can easily overcome most secure systems.
-Side-channel attacks are one such type of attacks. The core is to \emph{listen} to the system from distance (often without the knowledge of data owner) and retrieve the sensitive information under the hood.
+Side-channel attacks are one such type of attacks. The core idea is to \emph{listen} to the system from distance (often without the knowledge of data owner) and retrieve the sensitive information under the hood.
 
 One of the current efforts to tackle side-channel attacks is to use symbolic execution techniques and quantify the information leakage (and finally avoid/minimize it).
 We consider the research done by Quoc-Sang Phan et al., \cite{phan2017synthesis} regarding the synthesis of adaptive side-channel attacks.
@@ -92,8 +80,8 @@ The best attacker picks low values that result in the highest leakage.
 Symbolic execution/analysis does result in optimal attack synthesis among other advantages, it is due to all possible paths are modelled into constraints and then analysed.
 However, the obvious challenge is that the state space increases exponentially.
 Different tools employ different techniques to overcome this well know challenge, now the question here is \emph{What does Klee do differently?}
-In the literature XXX add paper, Symbolic Path Finder is a java based symbolic tool was used to analyze the adaptive side channel attack and quantify information leakage.
-The SPF implementation of this problem timeout for larger domains and k (XXX add more accurate data) and they employed heuristics to explore some set states to achieve better scalability (to some extent).
+In the literature \cite{phan2017synthesis}, Symbolic Path Finder is a java based symbolic tool was used to analyze the adaptive side channel attack and quantify information leakage.
+The SPF implementation of this problem timeout for larger $k >= 12$ (regardless of the domain size) and they employed heuristics to explore some set states to achieve better scalability (to some extent).
 
 In this project, we want to investigate if \texttt{Klee} employ any specific techniques for scalability.
 There are several heuristics for exploring the search space and solver chains that can be used.
@@ -141,7 +129,7 @@ klee_make_symbolic(&secret,sizeof(int),"secret");
 klee_make_symbolic(public_inputs,k * sizeof(int),"public inputs");
 \end{verbatim}
 
-Usually symbolic execution is used for synthesis of best side channel attack (we discuss further in outlook section XXX), however here we will only investigate the scalability of \texttt{Klee}.
+Usually symbolic execution is used for synthesis of best side channel attack (we discuss further in the section \ref{sec:futurework}), however here we will only investigate the scalability of \texttt{Klee}.
 But it is important to note that in symbolic analysis, which \emph{encodes} all paths in terms of path conditions, it is possible to identify the leakage and thus synthesize best side channel attack.
 
 Now the major challenge is to simulate adaptive attack, in \texttt{Klee} there is no explicit way to specify the bounds of each symbolic variable (that we aware of).
@@ -167,7 +155,7 @@ Using this modelling, we investigate the scalability in \texttt{Klee} and we dis
 \label{subsec:softwares}
 
 \href{https://klee.github.io/}{\texttt{Klee}} is a open source symbolic execution tool that runs on top of LLVM infrastructure.
-More details are presented in paper XXX.
+More details and current research streams are presented in the \href{https://klee.github.io/publications/}{website}.
 Generally used to analyse the coverage of code in C/C++ which is inturn compiled into LLVM. 
 
 We use our adaptive side channel attack model, and investigate different heuristics and solvers provided by \texttt{Klee}.
@@ -188,7 +176,7 @@ Here are the list of heuristics we consider:
 \item we also consider no heuristics and all heuristics interleaved.
 \end{enumerate}
 
-A key point to remember with the different heuristics is that, they only dictate with symbolic state to expand next.
+A key point to remember with the different heuristics is that, they only dictate which symbolic state to expand next.
 That implies, a full scale exploration of search trees will not be effected much by the heuristics.
 In our experimentation we cut of the trees with certain $k$ so heuristics might play a role here (or not).
 
@@ -207,18 +195,19 @@ Architecture: x86_64
 CPU(s):       4
 Model name:   Intel(R) Core(TM) i5-5200U CPU @ 2.20GHZ
 BogoMIPS:     4389.72
+MemTotal:     8028148 kB
 \end{verbatim}
 
-The source code for our symbolic adaptive side channel attack is available here XXX.
+The source code for our symbolic adaptive side channel attack is available \href{https://github.com/irfansha/LBS_projects/tree/master/final_project}{here}.
 The script we use for running different heuristics and solvers are also available in the same repository.
 
 \subsection{Data and analysis}
 \label{subsec:dataandanalysis}
 
-Following the experimentation set-up, we have generated data for various heuristics and solvers (raw data is available here XXX).
+Following the experimentation set-up, we have generated data for various heuristics and solvers (raw data is available \href{https://github.com/irfansha/LBS_projects/tree/master/final_project/data}{here}).
 For scalability, we are consider two parameters, total time and solver time for increasing domain sizes and $k$ steps.
 
-The figures \ref{fig:basic_heur_tt} and \ref{fig:basic_heur_st} illustrate the total and solver time for basic heuristics.XXX
+The figures \ref{fig:basic_heur_tt} and \ref{fig:basic_heur_st} illustrate the total and solver time for basic heuristics, i.e., default, dfs, random-state and random-path.
 Similarly, the figures \ref{fig:nonuni_heur_tt} and \ref{fig:nonuni_heur_st} show the variation for non-uniform random heuristics.
 
 \begin{figure}[h]
@@ -253,8 +242,8 @@ Similarly, the figures \ref{fig:nonuni_heur_tt} and \ref{fig:nonuni_heur_st} sho
 \centering
 \end{figure}
 
-The table \ref{fig:solvertime} provide the solver times for different solvers.
-Here the total time is almost equal to the solver times(usually $97$ percentage),
+The table \ref{fig:solvertime} provides the solver times for different solvers.
+Here the total time is almost equal to the solver time(usually $97$ percentage),
 so looking at solver times is sufficient enough to get a good idea.
 
 \begin{figure}
@@ -281,8 +270,9 @@ so looking at solver times is sufficient enough to get a good idea.
 
 From the table it is clear that, Z3 performs surprisingly worse compared to other solvers.
 However the difference is not exponentially increasing but perhaps only a constant.
+Moreover, apart from Z3 there is not much difference in solver times.
 
-The table \ref{fig:scalability} presents the extend we were able to run for the domain size $10^4$ and increasing $k$.
+The table \ref{fig:scalability} presents the extent we were able to run for the domain size $10^4$ and increasing $k$.
 We can observe that the time taken increases exponentially, in fact, it took $10$ hours for $k = 14$ and timed-out for $k=16$.
 The same can be observed with the number of instructions executed which is proportional to time taken.
 Here, regardless of the domain size we can establish that \texttt{Klee} on this machine will time-out for $k=16$ unless there is a significant improvement via heuristics (which does not seems to be the case for this problem).
@@ -309,19 +299,27 @@ Here, regardless of the domain size we can establish that \texttt{Klee} on this 
 \section{Conclusion and future work}
 \label{sec:futurework}
 
-Symbolic execution of adaptive side channel attack is an earlier stage of bigger problem i.e., the synthesis of optimal side channel attack.
-The natural next step is to use the data produced in section XXX (instead of explicit data, a constraint solver can be used to find right values) and synthesising the public inputs with maximum information leakage.
+From our investigations, we observed that \texttt{Klee} does not cut of the search when using heuristics rather only the order of execution is changed.
+This will not effect the run time (or scalability) to a large extent as we discussed in the subsection \ref{subsec:dataandanalysis}, unless parallel threads are generated (thus smoothing out workload).
+Regarding our second research question on scalability of different solvers, we observed that z3 seems to perform worst among the rest of the solvers but seems to scale similar to other solvers.
+As pointed out before, the difference in time is only a constant factor thus asymptotically it would not change much for larger and complicated programs.
+
+It is important to note that, our sample modelling of adaptive side channel attack does not \emph{guide} the search to take advantage of heurisitcs.
+Our challenge was to investigate the scallability of \texttt{Klee} in almost \emph{worst} case scenario (as in, full tree explosion).
+Given more complicated problem (that are not plain expansion of search tree), we are positive that the scalability will be better.
+
+Finally, symbolic execution of adaptive side channel attack is \emph{only} an early stage of the bigger problem i.e., the synthesis of optimal side channel attack.
+The natural next step is to use the data produced in section \ref{subsec:dataandanalysis} (instead of explicit data, a constraint solver can be used to find right values) and synthesizing the public inputs with maximum information leakage.
 
 \subsection{Initial investigation on quantifying informations leakage and \texttt{Klee} heuristics}
 \label{subsec:initialinvestigationleakage}
 
-We generated data (XXX add link) for different heuristics and investigated if new paths are observed for different heuristics.
+We generated \href{https://github.com/irfansha/LBS_projects/blob/master/final_project/data/explicit_data.zip}{data} for different heuristics and investigated if new paths are observed for different heuristics.
 We applied brute force search, i.e., searching through all paths of basic run data (without heuristics) and compared with various heuristics.
-The observations are not so significant, we observed some paths are being explored via new heuristics but they are quite rare questioning the impact of heuristics.
+The observations are not so significant, we observed some paths are being explored via new heuristics but they are quite rare, questioning the impact of heuristics.
 However, it is important to note that we did not drive our symbolic attack towards maximizing the secret leakage.
 For example, asserting if the final bounds (lb and rb) are equal can guide \texttt{Klee} towards better information leakage.
 Thus, heuristics might play a bigger role in regards to synthesis of best side channel attacks and better scalability which still needs to be investigated.
-
 
 
 \bibliographystyle{plain}
