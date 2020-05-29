@@ -37,10 +37,6 @@ In the following subsections, we first summarize the discussion on side-channel 
 Further in the section \ref{sec:experimentationanddesign}, we provide our modelling of the problem, experimental set-up as well as data analysis.
 Finally in the section \ref{sec:futurework}, we conclude our observation and discuss possible future work in this direction.
 
-\section{Literature review}
-\label{cha:literaturereview}
-This section is written on the basis of \cite{phan2017synthesis}.
-
 \subsection{Side channel attacks}
 \label{sec:sidechannelattacks}
 
@@ -217,7 +213,7 @@ The script we use for running different heuristics and solvers are also availabl
 Following the experimentation set-up, we have generated data for various heuristics and solvers (raw data is available \href{https://github.com/irfansha/LBS_projects/tree/master/final_project/data}{here}).
 For scalability, we are consider two parameters, total time and solver time for increasing domain sizes and $k$ steps.
 
-The figures \ref{fig:basic_heur_tt} and \ref{fig:basic_heur_st} illustrate the total and solver time for basic heuristics, i.e., default, 
+The figures \ref{fig:basic_heur_tt} and \ref{fig:basic_heur_st} illustrate the total and solver time for basic heuristics, i.e., default, dfs, random-state and random-path.
 Similarly, the figures \ref{fig:nonuni_heur_tt} and \ref{fig:nonuni_heur_st} show the variation for non-uniform random heuristics.
 
 \begin{figure}[h]
@@ -254,7 +250,6 @@ Similarly, the figures \ref{fig:nonuni_heur_tt} and \ref{fig:nonuni_heur_st} sho
 
 The table \ref{fig:solvertime} provides the solver times for different solvers.
 Here the total time is almost equal to the solver time(usually $97$ percentage),
-
 so looking at solver times is sufficient enough to get a good idea.
 
 \begin{figure}
